@@ -17,6 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * REST controller for managing social media connections.
+ * 
+ * This controller provides endpoints for creating, retrieving, and updating
+ * social media connections for users.
+ * 
+ * @author Spechofy Team
+ * @version 1.0
+ */
 @RestController
 public class SocialMediaController {
 
@@ -29,15 +38,27 @@ public class SocialMediaController {
     @Autowired
     private UserSocialMediaRepository userSocialMediaRepository;
 
+    /**
+     * Retrieves all social media platforms.
+     * 
+     * @return List of all social media platforms in the system
+     */
     @GetMapping("/allsocials")
     public List<SocialMedia> getAllSocialMedias() {
         return socialMediaRepository.findAll();
     }
 
+    /**
+     * Adds or updates a social media connection for a specific user.
+     * 
+     * @param userId The ID of the user to add/update the social media connection for
+     * @param userSocialMediaRequest The social media connection data to be added or updated
+     * @return ResponseEntity with success or error message
+     */
     @PostMapping("/users/{userId}/addSocialMedia")
     public ResponseEntity<String> addOrUpdateSocialMediaToUser(
-            @PathVariable Long userId,
-            @RequestBody UserSocialMedia userSocialMediaRequest) {
+            @PathVariable final Long userId,
+            @RequestBody final UserSocialMedia userSocialMediaRequest) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
@@ -51,7 +72,8 @@ public class SocialMediaController {
         }
 
         // Check if the social media link already exists for the user
-        Optional<UserSocialMedia> existingLinkOpt = userSocialMediaRepository.findByUserIdAndSocialMediaId(userId, userSocialMediaRequest.getSocialMediaId());
+        Optional<UserSocialMedia> existingLinkOpt = userSocialMediaRepository.findByUserIdAndSocialMediaId(
+                userId, userSocialMediaRequest.getSocialMediaId());
 
         if (existingLinkOpt.isPresent()) {
             UserSocialMedia existingLink = existingLinkOpt.get();
@@ -64,6 +86,5 @@ public class SocialMediaController {
             userSocialMediaRepository.save(userSocialMediaRequest);
             return ResponseEntity.ok("Social media link added successfully");
         }
-
     }
 }
