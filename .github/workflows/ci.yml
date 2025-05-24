@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-
       # Postgres pour Spring Boot (différent)
       postgres-spring:
         image: postgres:16
@@ -55,8 +54,4 @@ jobs:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/dbGestionDesUtilisateurs
           SPRING_DATASOURCE_USERNAME: springuser
           SPRING_DATASOURCE_PASSWORD: springpass
-          # Keycloak configuration
-          SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SPECHOFY_ISSUER_URI: http://localhost:8080/realms/spechofy
-          SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID: gestion-utilisateurs
-          SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_SECRET: test-secret
         run: mvn test
