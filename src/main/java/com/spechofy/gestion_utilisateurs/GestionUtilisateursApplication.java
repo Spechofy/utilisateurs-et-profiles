@@ -5,17 +5,40 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import com.spechofy.gestion_utilisateurs.model.*;
-import com.spechofy.gestion_utilisateurs.model.enums.*;
-import com.spechofy.gestion_utilisateurs.repository.*;
+import com.spechofy.gestion_utilisateurs.model.Information;
+import com.spechofy.gestion_utilisateurs.model.Profil;
+import com.spechofy.gestion_utilisateurs.model.SocialMedia;
+import com.spechofy.gestion_utilisateurs.model.User;
+import com.spechofy.gestion_utilisateurs.model.enums.Gender;
+import com.spechofy.gestion_utilisateurs.model.enums.Orientation;
+import com.spechofy.gestion_utilisateurs.model.enums.Situation;
+import com.spechofy.gestion_utilisateurs.repository.InformationRepository;
+import com.spechofy.gestion_utilisateurs.repository.ProfilRepository;
+import com.spechofy.gestion_utilisateurs.repository.SocialMediaRepository;
+import com.spechofy.gestion_utilisateurs.repository.UserRepository;
+import com.spechofy.gestion_utilisateurs.repository.UserSocialMediaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Main application class for the User and Profile Management Service.
+ * 
+ * This class initializes the Spring Boot application and provides
+ * configuration for data loading during development.
+ * 
+ * @author Spechofy Team
+ * @version 1.0
+ */
 @SpringBootApplication
 public class GestionUtilisateursApplication {
 
-	public static void main(String[] args) {
+	/**
+	 * Main method that starts the application.
+	 * 
+	 * @param args Command line arguments passed to the application
+	 */
+	public static void main(final String[] args) {
 		// Load .env file
 		Dotenv dotenv = Dotenv.configure().load();
 		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
@@ -23,8 +46,22 @@ public class GestionUtilisateursApplication {
 		SpringApplication.run(GestionUtilisateursApplication.class, args);
 	}
 
+	/**
+	 * Creates a CommandLineRunner bean that loads initial data into the database.
+	 * 
+	 * @param userRepository Repository for User entities
+	 * @param profilRepository Repository for Profile entities
+	 * @param informationRepository Repository for Information entities
+	 * @param socialMediaRepository Repository for SocialMedia entities
+	 * @param userSocialMediaRepository Repository for UserSocialMedia entities
+	 * @return A CommandLineRunner that populates the database with sample data
+	 */
 	@Bean
-	public CommandLineRunner dataLoader(UserRepository userRepository, ProfilRepository profilRepository, InformationRepository informationRepository, SocialMediaRepository socialMediaRepository, UserSocialMediaRepository userSocialMediaRepository) {
+	public CommandLineRunner dataLoader(final UserRepository userRepository, 
+			final ProfilRepository profilRepository, 
+			final InformationRepository informationRepository, 
+			final SocialMediaRepository socialMediaRepository, 
+			final UserSocialMediaRepository userSocialMediaRepository) {
 		return args -> {
 			List<SocialMedia> platforms = List.of(
 				SocialMedia.builder().plateformeName("Spotify").build(),
