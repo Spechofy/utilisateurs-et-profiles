@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -61,6 +62,28 @@ public class User {
      * User's phone number.
      */
     private String phone;
+
+    /**
+     * User's locale preference (e.g., "en", "en-US", "fr-FR", "pt-BR").
+     * This stores the user's language and region preference.
+     */
+    @Column(length = 15)
+    private String locale;
+
+    /**
+     * User's latitude coordinate for GPS location.
+     */
+    private Double latitude;
+
+    /**
+     * User's longitude coordinate for GPS location.
+     */
+    private Double longitude;
+
+    /**
+     * Timestamp when the user's location was last updated.
+     */
+    private LocalDateTime locationUpdatedAt;
 
     /**
      * User's profile information.

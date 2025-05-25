@@ -19,6 +19,7 @@ import com.spechofy.gestion_utilisateurs.repository.UserRepository;
 import com.spechofy.gestion_utilisateurs.repository.UserSocialMediaRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -73,6 +74,20 @@ public class GestionUtilisateursApplication {
 			socialMediaRepository.saveAll(platforms);
 
 			for (int i = 1; i <= 5; i++) {
+				// Assign different locales to sample users
+				String locale;
+				switch (i % 5) {
+					case 0: locale = "en"; break;
+					case 1: locale = "en-US"; break;
+					case 2: locale = "fr-FR"; break;
+					case 3: locale = "es-ES"; break;
+					default: locale = "pt-BR"; break;
+				}
+
+				// Generate sample coordinates based on user index
+				Double latitude = 40.0 + (i * 0.01);
+				Double longitude = -74.0 + (i * 0.01);
+
 				User user = User.builder()
 					.firstName("User" + i)
 					.lastName("LastName" + i)
@@ -80,6 +95,10 @@ public class GestionUtilisateursApplication {
 					.birthDate(LocalDate.of(1990 + i, i, i))
 					.email("user" + i + "@example.com")
 					.phone("12345678" + i)
+					.locale(locale)
+					.latitude(latitude)
+					.longitude(longitude)
+					.locationUpdatedAt(LocalDateTime.now())
 					.build();
 
 				Profil profil = Profil.builder()
